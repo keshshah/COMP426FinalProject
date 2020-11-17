@@ -37,3 +37,8 @@
     text-align: center;
     color: #afff14;
 }
+
+.results {
+    height: 74vh;
+    overflow-y: scroll;
+}

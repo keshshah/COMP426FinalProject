@@ -56,32 +56,65 @@ async function submitMe() {
 
         let json = await result.data.data;
         parseData(json, state);
-        
+
     }
 }
 
-function parseData(json, state){
-    let mapped = json.map(({description, addresses, fullName})=>({description, addresses, fullName}));
-    mapped.forEach(function(item, index, object){
-        let filtered = item.addresses.filter(x=>x.stateCode=state);
+function parseData(json, state) {
+    let mapped = json.map(({ description, addresses, fullName }) => ({ description, addresses, fullName }));
+    mapped.forEach(function (item, index, object) {
+        let filtered = item.addresses.filter(x => x.stateCode = state);
         item.addresses = filtered;
-        if(item.addresses.length ==0){
+        if (item.addresses.length == 0) {
             object.splice(index, 1);
         }
     });
     renderParsed(mapped);
 }
 
-function renderParsed(json){
+function renderParsed(json) {
+    $('#myResults').empty();
     json.forEach(obj => {
         let created = createResultElement(obj);
         $('#myResults').append(created);
     })
 }
 
-function createResultElement(object){
-    return `<div style="background-color:#1b1a28; color:white">
-        <span style="color: #FF0D86"> Name: ${object.fullName} </span>
+function removeFavorite(event) {
+    
+    let orig = event.currentTarget.parentElement.parentElement;
+    let park =$(orig).find('#parkName')[0].innerHTML; /*need code here to remove favorite from backend using variable park*/
+    console.log("removing "+park);
+    orig.remove();
+
+}
+
+function addFavorite(event) {
+    let orig = event.currentTarget.parentElement.parentElement;
+    let park = $(orig).find('#parkName')[0].innerHTML;
+    let savedList = $('#mySaved').find('#parkName');
+    let doesNotExist = true;
+    for (let i = 0; i < savedList.length; i++) {
+        if (savedList[i].innerHTML == park) {
+            doesNotExist = false;
+        }
+    }
+    console.log(doesNotExist);
+
+    if (doesNotExist) {
+        let clone = orig.cloneNode([true]);
+        let newobj = clone.outerHTML.replace(`<button class="btn btn-info small" onclick="addFavorite(event)">Add to my favorites!</button>`, '<button class="btn btn-danger small" onclick="removeFavorite(event)">Remove from my favorites</button>');
+        newobj = newobj + `<br>`
+        /*need code here to send obj to backend storage using variable park*/
+        $('#mySaved').append(newobj);
+    } else {
+        alert("This park is already saved!");
+    }
+}
+
+function createResultElement(object) {
+    return `<div id="${object.addresses[0].postalCode}" style="background-color:#1b1a28; color:white">
+        <span style="color: #FF0D86"> Name: <span id="parkName">${object.fullName}</span> &nbsp; &nbsp; <button class="btn btn-info small" onclick="addFavorite(event)">Add to my favorites!</button></span>
         <br>
         Postal Code: ${object.addresses[0].postalCode}
         <br>
