@@ -83,7 +83,7 @@ function renderParsed(json) {
             <td style="width:50%; color: #afff14; font-size:32px; font-weight:bolder">Results Found:</td>
             <td style="width:50%; color: #04ECF0; font-size:20px; font-weight:bold; vertical-align: middle;">
                 <div class="form-check form-check-inline" id="filterBoxes">
-                    Filters: &nbsp;
+                    Weather Filters: &nbsp;
                     
                 </div>
             </td>
