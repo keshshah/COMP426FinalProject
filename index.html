@@ -23,8 +23,7 @@
 				<tr>
 					<td style="vertical-align:top; width:50vw">
 						<div class="staticDiv">
-							<div class="mx-auto d-flex align-items-center"
-								style="width: 30vw; flex-direction: column;">
+							<div class="mx-auto d-flex align-items-center" style="width: 30vw; flex-direction: column;">
 								<div style="text-align:center;margin-top: 50px; background:rgba(0,0,0,0.5); width:15vw"
 									class="rounded">
 									<h1 style="text-align:center;">
@@ -61,7 +60,8 @@
 											</select>
 										</td>
 										<td style="width:8vw">
-											<button onclick="submitMe()" type="button" style="width:8vw;" class="btn btn-success">Go!</button>
+											<button onclick="submitMe()" type="button" style="width:8vw;"
+												class="btn btn-success">Go!</button>
 										</td>
 									</table>
 								</form>
@@ -76,10 +76,33 @@
 								Saved Results</button>
 						</div>
 						<div id="myResults" class="tabcontent results">
-							<h1>Results Found:</h1>
+							<table style="width:100%">
+								<tbody style="width:100%">
+									<tr style="width:100%">
+										<td style="width:50%; color: #afff14; font-size:32px; font-weight:bolder">Results Found:</td>
+										<td style="width:50%; color: #04ECF0; font-size:20px; font-weight:bold; vertical-align: middle;">
+											<div class="form-check form-check-inline" id="filterBoxes">
+												Filters: &nbsp;
+												
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 						<div id="mySaved" class="tabcontent" style="display: none">
-							<h1>My Saved Results:</h1>
+							<table style="width:100%">
+								<tbody style="width:100%">
+									<tr style="width:100%">
+										<td style="width:50%; color: #afff14; font-size:32px; font-weight:bolder">My Saved Results:</td>
+										<td style="width:50%; color: #04ECF0; font-size:20px; font-weight:bold; vertical-align: middle;">
+											<div class="form-check form-check-inline" id="filterBoxes1">
+												Filters: &nbsp;
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 					</td>
 				</tr>
