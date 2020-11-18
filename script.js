@@ -158,12 +158,10 @@ function removeFavorite(event) {
     
     let orig = event.currentTarget.parentElement.parentElement;
     let removedState = $(orig).find(`#parkState`)[0].classList[0];
-    console.log(removedState);
     let park =$(orig).find('#parkName')[0].innerHTML; /*need code here to remove favorite from backend using variable park*/
     orig.parentElement.remove();
 
     let savedList = document.getElementById('mySaved').childNodes;
-    console.log(savedList);
     let savedListLength = savedList.length;
     let noStatesLeft = true;
     for(let i=3; i<savedListLength;i++){
@@ -176,7 +174,6 @@ function removeFavorite(event) {
 
     if(noStatesLeft){
         let removeSecond = $('#mySaved').find(`#defaultCheck${removedState}`);
-        console.log(removeSecond.parent()[0].childNodes);
         let removeChilds = removeSecond.parent()[0].childNodes;
         let removeLength = removeChilds.length;
         let indexRemove;
@@ -187,21 +184,12 @@ function removeFavorite(event) {
         }
         removeChilds[indexRemove+2].remove();
         removeChilds[indexRemove].remove();
-        console.log(indexRemove);
 
         // removeSecond.parent()[0].remove();
         let ind = stateList.indexOf(removedState);
         stateList.splice(ind, 1);
-        printStates();
         // removeSecond.nextElementSibling.remove();
         // removeSecond.remove();
-    }
-}
-
-function printStates(){
-    let length = stateList.length;
-    for(let i = 0;i<length;i++){
-        console.log(stateList[i]);
     }
 }
 
@@ -209,10 +197,8 @@ function addFavorite(event) {
     let orig = event.currentTarget.parentElement.parentElement;
     let state = $(orig).find(`#parkState`)[0].classList[0];
     if(!stateList.includes(state)){
-        console.log("lets create a filter");
         stateList.push(state);
         appendFilter1(state);
-        printStates();
     }
 
     let park = $(orig).find('#parkName')[0].innerHTML;
