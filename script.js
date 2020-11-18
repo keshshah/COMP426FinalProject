@@ -104,7 +104,7 @@ function renderParsed(json) {
 }
 
 function appendFilter1(state){
-    let filter = `<input class="form-check-input" type="checkbox" value="" id="defaultCheck${state}" onclick="filterMe(event)" checked>
+    let filter = `<input class="form-check-input" type="checkbox" id="defaultCheck${state}" onclick="filterMe(event)" checked>
     <label class="form-check-label" for="defaultCheck${state}">
       ${state}&nbsp;&nbsp;&nbsp;
     </label>`
@@ -113,7 +113,7 @@ function appendFilter1(state){
 }
 
 function appendFilter(condition){
-    let filter = `<input class="form-check-input" type="checkbox" value="" id="defaultCheck${condition}" onclick="filterMe(event)" checked>
+    let filter = `<input class="form-check-input" type="checkbox" id="defaultCheck${condition}" onclick="filterMe(event)" checked>
     <label class="form-check-label" for="defaultCheck${condition}">
       ${condition}&nbsp;&nbsp;&nbsp;
     </label>`
@@ -157,17 +157,62 @@ async function getWeather(zip, element){
 function removeFavorite(event) {
     
     let orig = event.currentTarget.parentElement.parentElement;
+    let removedState = $(orig).find(`#parkState`)[0].classList[0];
+    console.log(removedState);
     let park =$(orig).find('#parkName')[0].innerHTML; /*need code here to remove favorite from backend using variable park*/
     orig.parentElement.remove();
 
+    let savedList = document.getElementById('mySaved').childNodes;
+    console.log(savedList);
+    let savedListLength = savedList.length;
+    let noStatesLeft = true;
+    for(let i=3; i<savedListLength;i++){
+        let element = savedList[i];
+        let thisState = $(element).find(`#parkState`)[0].classList[0];
+        if(thisState == removedState){
+            noStatesLeft = false;
+        }
+    }
+
+    if(noStatesLeft){
+        let removeSecond = $('#mySaved').find(`#defaultCheck${removedState}`);
+        console.log(removeSecond.parent()[0].childNodes);
+        let removeChilds = removeSecond.parent()[0].childNodes;
+        let removeLength = removeChilds.length;
+        let indexRemove;
+        for(let i = 0; i<removeLength;i++){
+            if(removeChilds[i].id == `defaultCheck${removedState}`){
+                indexRemove = Array.prototype.indexOf.call(removeChilds, removeChilds[i]);
+            }
+        }
+        removeChilds[indexRemove+2].remove();
+        removeChilds[indexRemove].remove();
+        console.log(indexRemove);
+
+        // removeSecond.parent()[0].remove();
+        let ind = stateList.indexOf(removedState);
+        stateList.splice(ind, 1);
+        printStates();
+        // removeSecond.nextElementSibling.remove();
+        // removeSecond.remove();
+    }
+}
+
+function printStates(){
+    let length = stateList.length;
+    for(let i = 0;i<length;i++){
+        console.log(stateList[i]);
+    }
 }
 
 function addFavorite(event) {
     let orig = event.currentTarget.parentElement.parentElement;
     let state = $(orig).find(`#parkState`)[0].classList[0];
     if(!stateList.includes(state)){
+        console.log("lets create a filter");
         stateList.push(state);
         appendFilter1(state);
+        printStates();
     }
 
     let park = $(orig).find('#parkName')[0].innerHTML;
@@ -190,7 +235,6 @@ function addFavorite(event) {
         $(newEl).find('#conditions')[0].remove();
         $('#mySaved').append(newEl);
         let targ = event.currentTarget.parentElement;
-        console.log(targ);
         $(targ).append(`<span id="added" style="color:red; font-weight:bolder">&nbsp;&nbsp;&nbsp;Added!</span>`);
         setTimeout(function(){
             $(targ).find('#added')[0].remove();
