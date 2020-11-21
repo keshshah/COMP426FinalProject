@@ -1,9 +1,62 @@
+auth.onAuthStateChanged(user => {
+    if (user) {
+        isLogged = true;
+        username = user.email;
+
+        let ref = db.collection('users').doc(username).collection('Saved Parks');
+
+        ref.get().then((m1)=>{
+            m1.forEach(collection => {
+                console.log(collection.data());
+                address = collection.data().parkAddress;
+                name = collection.data().parkName;
+                description = collection.data().parkDescription;
+                state = collection.data().parkState;
+                let appendMe = `<div style="background-color:#1b1a28; color:white">
+                <span id="parkState" class="${state}"></span>
+                <span style="color: #FF0D86"> Name: <span id="parkName">${name}</span> &nbsp; &nbsp; <button class="btn btn-danger small" onclick="removeFavorite(event)">Remove from my favorites</button></span>
+                <br>
+                <span style="color: #FFDF00">Address: ${address}</span>
+                <br>
+                Description: <span class="w-1">${description}</span>
+            </div>
+            <br>    `;
+
+                $('#mySaved').append(appendMe);
+                if (!stateList.includes(state)) {
+                    stateList.push(state);
+                    appendFilter1(state);
+                }
+                
+            })
+        })
+        
+        document.getElementById("signinbutton").style.display = "none";
+        console.log(document.getElementById("signinbutton"));
+        document.getElementById("signupbutton").style.display = "none";
+        document.getElementById("logoutbutton").style.display = "block";
+        $('#loginStatus').html(`<span id="logStatus" style="color:white">Logged in as: ${username}</span>`);
+    } else {
+        isLogged = false;
+        username = '';
+        $('#loginStatus').html('');
+        document.getElementById("signinbutton").style.display = "block";
+        document.getElementById("signupbutton").style.display = "block";
+        document.getElementById("logoutbutton").style.display = "none";
+    }
+});
+
+let username;
+let isLogged = false;
+
 $(document).ready(function () {
     loadStates();
 });
 
 
-let conditionList =[];
+let parkMap = new Map();
+
+let conditionList = [];
 let stateList = [];
 function loadStates() {
     let statesList = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'];
@@ -95,7 +148,7 @@ function renderParsed(json) {
         let created = createResultElement(obj);
         let newEl = document.createElement("div");
         newEl.innerHTML = created.trim();
-        let zip = newEl.childNodes[0].id.slice(0,5);
+        let zip = newEl.childNodes[0].id.slice(0, 5);
         getWeather(zip, newEl);
         // let conditions = $(newEl).find('#conditions')[0];
         // conditions.classList.add(condition);
@@ -103,7 +156,7 @@ function renderParsed(json) {
     })
 }
 
-function appendFilter1(state){
+function appendFilter1(state) {
     let filter = `<input class="form-check-input" type="checkbox" id="defaultCheck${state}" onclick="filterMe(event)" checked>
     <label class="form-check-label" for="defaultCheck${state}">
       ${state}&nbsp;&nbsp;&nbsp;
@@ -112,7 +165,7 @@ function appendFilter1(state){
     $('#filterBoxes1').append(filter);
 }
 
-function appendFilter(condition){
+function appendFilter(condition) {
     let filter = `<input class="form-check-input" type="checkbox" id="defaultCheck${condition}" onclick="filterMe(event)" checked>
     <label class="form-check-label" for="defaultCheck${condition}">
       ${condition}&nbsp;&nbsp;&nbsp;
@@ -121,68 +174,96 @@ function appendFilter(condition){
     $('#filterBoxes').append(filter);
 }
 
-function filterMe(event){
+function filterMe(event) {
     let id = event.currentTarget.id;
     let length = id.length;
     let condition = id.slice(12, length);
-    let list = document.getElementsByClassName(condition);
+    let list = event.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement. getElementsByClassName(condition);
+    console.log(list);
     let listLength = list.length;
-    for(let i = 0 ; i<listLength;i++){
-        let container = (list[i].parentElement.parentElement);
-        if(container.classList.contains(`hide${condition}`)){
+    for (let i = 0; i < listLength; i++) {
+        let container;
+        console.log(event.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.id);
+        if(event.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.id =='mySaved'){
+            if(!isLogged){
+                container = (list[i].parentElement.parentElement);
+            } else{
+                container = (list[i].parentElement);
+                console.log(container.parentElement[Array.prototype.indexOf.call(container.parentNode.children, container)+1]);
+            }
+        } else {
+            container = (list[i].parentElement.parentElement);
+        }
+        
+        
+        if (container.classList.contains(`hide${condition}`)) {
             container.classList.remove(`hide${condition}`);
-            container.style.display = "block";  
-        } else{
+            container.style.display = "block";
+        } else {
             container.classList.add(`hide${condition}`);
             container.style.display = "none";
         }
     }
 }
 
-async function getWeather(zip, element){
+async function getWeather(zip, element) {
     const result = await axios({
         method: 'get',
         url: `https://api.openweathermap.org/data/2.5/weather?zip=${zip}&appid=29386abb2e4b3034cad88437464bb80d`,
     });
     let condition = await result.data.weather[0].main;
     let conditions = $(element).find('#conditions')[0];
-        if(!conditionList.includes(condition)){
-            conditionList.push(condition);
-            appendFilter(condition);
-        }
+    if (!conditionList.includes(condition)) {
+        conditionList.push(condition);
+        appendFilter(condition);
+    }
     conditions.classList.add(condition);
     $('#myResults').append(element);
 }
 
 function removeFavorite(event) {
-    
+
     let orig = event.currentTarget.parentElement.parentElement;
+    let park = $(orig).find('#parkName')[0].innerHTML; /*need code here to remove favorite from backend using variable park*/
+
     let removedState = $(orig).find(`#parkState`)[0].classList[0];
-    let park =$(orig).find('#parkName')[0].innerHTML; /*need code here to remove favorite from backend using variable park*/
-    orig.parentElement.remove();
+    if(!isLogged){
+        orig.parentElement.remove();
+    } else {
+        db.collection('users').doc(username).collection('Saved Parks').doc(park).delete();
+        parentorig = orig.parentNode;
+        origIndex = Array.prototype.indexOf.call(parentorig.children, orig);
+        orig.parentNode.removeChild(orig.parentNode.childNodes[origIndex+1]);
+        orig.remove();
+    };
+    
 
     let savedList = document.getElementById('mySaved').childNodes;
     let savedListLength = savedList.length;
     let noStatesLeft = true;
-    for(let i=3; i<savedListLength;i++){
+    for (let i = 0; i < savedListLength; i++) {
+        try{
         let element = savedList[i];
         let thisState = $(element).find(`#parkState`)[0].classList[0];
-        if(thisState == removedState){
+        if (thisState == removedState) {
             noStatesLeft = false;
+        }
+        } catch (error){
+
         }
     }
 
-    if(noStatesLeft){
+    if (noStatesLeft) {
         let removeSecond = $('#mySaved').find(`#defaultCheck${removedState}`);
         let removeChilds = removeSecond.parent()[0].childNodes;
         let removeLength = removeChilds.length;
         let indexRemove;
-        for(let i = 0; i<removeLength;i++){
-            if(removeChilds[i].id == `defaultCheck${removedState}`){
+        for (let i = 0; i < removeLength; i++) {
+            if (removeChilds[i].id == `defaultCheck${removedState}`) {
                 indexRemove = Array.prototype.indexOf.call(removeChilds, removeChilds[i]);
             }
         }
-        removeChilds[indexRemove+2].remove();
+        removeChilds[indexRemove + 2].remove();
         removeChilds[indexRemove].remove();
 
         // removeSecond.parent()[0].remove();
@@ -196,7 +277,7 @@ function removeFavorite(event) {
 function addFavorite(event) {
     let orig = event.currentTarget.parentElement.parentElement;
     let state = $(orig).find(`#parkState`)[0].classList[0];
-    if(!stateList.includes(state)){
+    if (!stateList.includes(state)) {
         stateList.push(state);
         appendFilter1(state);
     }
@@ -211,18 +292,39 @@ function addFavorite(event) {
     }
 
     if (doesNotExist) {
-        
-        let clone = orig.cloneNode([true]);
-        let newobj = clone.outerHTML.replace(`<button class="btn btn-info small" onclick="addFavorite(event)">Add to my favorites!</button>`, '<button class="btn btn-danger small" onclick="removeFavorite(event)">Remove from my favorites</button>');
-        newobj = newobj + `<br>`
-        /*need code here to send obj to backend storage using variable park*/
-        let newEl = document.createElement("div");
-        newEl.innerHTML = newobj.trim();
-        $(newEl).find('#conditions')[0].remove();
-        $('#mySaved').append(newEl);
+        if (!isLogged) {
+            let clone = orig.cloneNode([true]);
+            let newobj = clone.outerHTML.replace(`<button class="btn btn-info small" onclick="addFavorite(event)">Add to my favorites!</button>`, '<button class="btn btn-danger small" onclick="removeFavorite(event)">Remove from my favorites</button>');
+            newobj = newobj + `<br>`
+            /*need code here to send obj to backend storage using variable park*/
+            let newEl = document.createElement("div");
+            newEl.innerHTML = newobj.trim();
+            $(newEl).find('#conditions')[0].remove();
+            $('#mySaved').append(newEl);
+        } else {
+            let address = parkMap.get(park)[1];
+            let description = parkMap.get(park)[2];
+            let state = parkMap.get(park)[3];
+            db.collection('users').doc(username).collection("Saved Parks").doc(park).set({
+                parkName: park,
+                parkAddress: address,
+                parkDescription: description,
+                parkState: state
+            });
+
+            let clone = orig.cloneNode([true]);
+            let newobj = clone.outerHTML.replace(`<button class="btn btn-info small" onclick="addFavorite(event)">Add to my favorites!</button>`, '<button class="btn btn-danger small" onclick="removeFavorite(event)">Remove from my favorites</button>');
+            newobj = newobj + `<br>`
+            /*need code here to send obj to backend storage using variable park*/
+            let newEl = document.createElement("div");
+            newEl.innerHTML = newobj.trim();
+            $(newEl).find('#conditions')[0].remove();
+            $('#mySaved').append(newEl);
+        }
+
         let targ = event.currentTarget.parentElement;
         $(targ).append(`<span id="added" style="color:red; font-weight:bolder">&nbsp;&nbsp;&nbsp;Added!</span>`);
-        setTimeout(function(){
+        setTimeout(function () {
             $(targ).find('#added')[0].remove();
         }, 3000);
     } else {
@@ -231,6 +333,19 @@ function addFavorite(event) {
 }
 
 function createResultElement(object) {
+    // add code here to create a map that stores variables for firestore
+    let address = object.addresses[0].line1 + ", " + object.addresses[0].city + ", " + object.addresses[0].stateCode + " " + object.addresses[0].postalCode;
+    let name = object.fullName;
+    let description = object.description;
+    let user = username;
+    let state = object.addresses[0].stateCode;
+
+
+    if (!parkMap.has(name)) {
+        let data = [user, address, description,state];
+        parkMap.set(name, data);
+    }
+
     return `<div id="${object.addresses[0].postalCode}" style="background-color:#1b1a28; color:white">
         <span id="conditions" class=""></span> <span id="parkState" class="${object.addresses[0].stateCode}"></span>
         <span style="color: #FF0D86"> Name: <span id="parkName">${object.fullName}</span> &nbsp; &nbsp; <button class="btn btn-info small" onclick="addFavorite(event)">Add to my favorites!</button></span>
@@ -238,8 +353,10 @@ function createResultElement(object) {
         <span style="color: #FFDF00">Address: ${object.addresses[0].line1}, ${object.addresses[0].city}, ${object.addresses[0].stateCode} ${object.addresses[0].postalCode}</span>
         <br>
         Description: <span class="w-1">${object.description}</span>
+        
     </div>
-    <br>    `
+    <br>
+       `
 }
 
 function getStateFromForm() {
@@ -255,10 +372,10 @@ function getStateFromForm() {
     return selectedState;
 }
 
-$(".checkbox-menu").on("change", "input[type='checkbox']", function() {
+$(".checkbox-menu").on("change", "input[type='checkbox']", function () {
     $(this).closest("li").toggleClass("active", this.checked);
- });
+});
 
- $(document).on('click', '.allow-focus', function (e) {
+$(document).on('click', '.allow-focus', function (e) {
     e.stopPropagation();
-  });
+});
