@@ -7,7 +7,6 @@ auth.onAuthStateChanged(user => {
 
         ref.get().then((m1)=>{
             m1.forEach(collection => {
-                console.log(collection.data());
                 address = collection.data().parkAddress;
                 name = collection.data().parkName;
                 description = collection.data().parkDescription;
@@ -32,7 +31,6 @@ auth.onAuthStateChanged(user => {
         })
         
         document.getElementById("signinbutton").style.display = "none";
-        console.log(document.getElementById("signinbutton"));
         document.getElementById("signupbutton").style.display = "none";
         document.getElementById("logoutbutton").style.display = "block";
         $('#loginStatus').html(`<span id="logStatus" style="color:white">Logged in as: ${username}</span>`);
@@ -179,17 +177,14 @@ function filterMe(event) {
     let length = id.length;
     let condition = id.slice(12, length);
     let list = event.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement. getElementsByClassName(condition);
-    console.log(list);
     let listLength = list.length;
     for (let i = 0; i < listLength; i++) {
         let container;
-        console.log(event.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.id);
         if(event.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.id =='mySaved'){
             if(!isLogged){
                 container = (list[i].parentElement.parentElement);
             } else{
                 container = (list[i].parentElement);
-                console.log(container.parentElement[Array.prototype.indexOf.call(container.parentNode.children, container)+1]);
             }
         } else {
             container = (list[i].parentElement.parentElement);

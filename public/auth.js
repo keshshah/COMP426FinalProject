@@ -3,16 +3,13 @@
 //listen for auth status changes and also populate the local db
 auth.onAuthStateChanged(user => {
     if (user) {
-        console.log('logged in: ', user);
     } else {
-        console.log('user logged out');
     }
 });
 
 //signup
 const signupForm = document.querySelector('#signup-form');
 signupForm.addEventListener('submit', (e) => {
-    console.log("submitting");
     e.preventDefault();
 
     const email = signupForm['signup-email'].value;
@@ -20,7 +17,6 @@ signupForm.addEventListener('submit', (e) => {
 
 
     auth.createUserWithEmailAndPassword(email, password).then(cred => {
-        console.log(cred.user);
         $("#modal-signup .close").click();
         signupForm.reset();
     }).catch((error)=>{
@@ -46,7 +42,6 @@ loginForm.addEventListener('submit', (e) => {
     auth.signInWithEmailAndPassword(email, password).then(cred => {
         $("#modal-login .close").click();
         loginForm.reset();
-        // console.log(cred);
     }).catch((error) => {
         alert(error.message);
     });
