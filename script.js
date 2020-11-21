@@ -62,6 +62,57 @@ async function submitMe() {
     }
 }
 
+//Search Code with Debounce and Autocomplete
+
+document.addEventListener('DOMContentLoaded', init);
+
+async function searchParks(text) {
+    var searchTerm = text.toString();
+    const result = await axios ({
+        method: 'get',
+        url: `https://developer.nps.gov/api/v1/parks?q=${searchTerm}&api_key=FC8pCCfcIs52SJLaHDcXdYJICINb6ixQA7b3Oeqx`,
+    });
+    var json = await result.data.data;
+    parseDataSearch(json);
+}
+
+function init() {
+    //adds event listener to keystrokes in the search bar
+    document.getElementById('searchByName').addEventListener('input', callDebounce);
+}
+
+var debouncer = function (func, wait, immediate) {
+    var timeOut;
+    return function() {
+        var context = this, args = arguments;
+        var afterWait = function() {
+            timeOut = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callImmediate = immediate && !timeOut;
+        clearTimeout(timeOut);
+        timeOut = setTimeout(afterWait, wait);
+        if (callImmediate) func.apply(context, args);
+    };
+};
+
+//search results are called and displayed at most once every 300 ms
+var callDebounce = debouncer(function(event) {
+    let text = event.target.value;
+    searchParks(text);
+}, 300);
+
+function parseDataSearch(json) {
+    let mapped = json.map(({ description, addresses, fullName }) => ({ description, addresses, fullName }));
+    mapped.forEach(function (item, index, object) {
+        if (item.addresses.length == 0) {
+            object.splice(index, 1);
+        }
+    });
+    renderParsed(mapped);
+}
+//End Of Search Code
+
 function parseData(json, state) {
     let mapped = json.map(({ description, addresses, fullName }) => ({ description, addresses, fullName }));
     mapped.forEach(function (item, index, object) {
