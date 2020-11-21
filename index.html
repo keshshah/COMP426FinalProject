@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Park Finder</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="stylesheet.css">
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script src="script.js"></script>
+</head>
+
+<body style="background-color:#201e2f">
+	<div>
+		<div class="jumbotron big-banner"
+			style="height:20vh; padding-bottom:0px; margin-bottom:0px; background-size: cover; background-image: url('https://i.ibb.co/0jrwzW0/banner2.png')">
+		</div>
+		<div>
+			<table>
+				<tr>
+					<td style="vertical-align:top; width:50vw">
+						<div class="staticDiv">
+							<div class="mx-auto d-flex align-items-center" style="width: 30vw; flex-direction: column;">
+								<div style="text-align:center;margin-top: 50px; background:rgba(0,0,0,0.5); width:15vw"
+									class="rounded">
+									<h1 style="text-align:center;">
+										<font style="font-weight: bold;" face="verdana" size="10" color="white">Park
+											Finder
+										</font>
+									</h1>
+								</div>
+								<div style="line-height:50%;">
+									<br>
+								</div>
+								<div style="background:rgba(0,0,0,0.5); width: 23vw" class="rounded">
+									<h6 class="text-light text-center">Login Here:</h6>
+									<div class="d-flex justify-content-center">
+										<input type="text" placeholder="username" size="10"></input>
+										<input type="text" placeholder="password" size="10"></input>
+									</div>
+								</div>
+							</div>
+
+							<div class="mx-auto" style="width: 23vw;">
+								<div style="text-align:center;margin-top: 50px; background-color: white;"
+									class="rounded">
+									<h4 class="text-success" font="">Find Parks!</h4>
+								</div>
+							</div>
+
+							<div id="stateForm" class="mx-auto" style="width: 23vw;">
+								<form>
+									<table>
+										<td style="width:15vw">
+											<select required class="form-control form-control-sm" id="stateSelect">
+												<option value="" disabled selected>Select your state</option>
+											</select>
+										</td>
+										<td style="width:8vw">
+											<button onclick="submitMe()" type="button" style="width:8vw;"
+												class="btn btn-success">Go!</button>
+										</td>
+									</table>
+								</form>
+							</div>
+				
+							<div class = "mx-auto" style="width: 8vw;">
+								<div style="text-align:left;margin-top: 50px; background-color: white;"
+									class="rounded">
+									<h4>Or By Name:</h4>
+								</div>
+							</div>
+
+							<div id="searchForm" class="mx-auto" style="width: 10vw;">
+								<form>
+									<input type = "search" id = "searchByName">
+								</form>
+							</div>
+
+						</div>
+					</td>
+					<td style="vertical-align: top; width:50vw;">
+						<div class="tab">
+							<button type="button" class="btn active font-weight-bold tablinks"
+								onclick="openTab(event, 'myResults')">Search Results</button>
+							<button type="button" class="btn inactive tablinks" onclick="openTab(event, 'mySaved')">My
+								Saved Results</button>
+						</div>
+						<div id="myResults" class="tabcontent results">
+							<table style="width:100%">
+								<tbody style="width:100%">
+									<tr style="width:100%">
+										<td style="width:50%; color: #afff14; font-size:32px; font-weight:bolder">Results Found:</td>
+										<td style="width:50%; color: #04ECF0; font-size:20px; font-weight:bold; vertical-align: middle;">
+											<div class="form-check form-check-inline" id="filterBoxes">
+												
+												
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div id="mySaved" class="tabcontent" style="display: none">
+							<table style="width:100%">
+								<tbody style="width:100%">
+									<tr style="width:100%">
+										<td style="width:50%; color: #afff14; font-size:32px; font-weight:bolder">My Saved Results:</td>
+										<td style="width:50%; color: #04ECF0; font-size:20px; font-weight:bold; vertical-align: middle;">
+											<div class="form-check form-check-inline" id="filterBoxes1">
+												State Filters: &nbsp;
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+</body>
+
+</html>
