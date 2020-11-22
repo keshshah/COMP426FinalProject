@@ -23,7 +23,7 @@
 					<td style="vertical-align:top; width:50vw">
 						<div class="staticDiv">
 							<div class="mx-auto d-flex align-items-center" style="width: 30vw; flex-direction: column;">
-								<div style="text-align:center;margin-top: 50px; background:rgba(0,0,0,0.5); width:15vw"
+								<div style="text-align:center;margin-top: 50px; background:rgba(0,0,0,0.5); width:20vw"
 									class="rounded">
 									<h1 style="text-align:center;">
 										<font style="font-weight: bold;" face="verdana" size="10" color="white">Park
@@ -31,22 +31,37 @@
 										</font>
 									</h1>
 									<div>
-										<span id="signinbutton">
-										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-login">
-											Sign In
-										  </button>
-										</span>
-										  <span id="signupbutton">
-										  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-signup">
-											Sign Up
-										  </button>
-										</span>
-										  <span id="logoutbutton">
-											<span id="loginStatus" style="color:white"></span>	
-										  <button type="button" id="logout" class="btn btn-primary">
-											Log Out!
-										  </button>
-										</span>
+										<table style="width:100%">
+											<tr>
+												<td>
+													<span id="signinbutton">
+													<button style="width:10vw" type="button" class="btn btn-primary" data-toggle="modal"
+														data-target="#modal-login">
+														Sign In
+													</button>
+												</span>
+												</td>
+
+												<td>
+													<span id="signupbutton">
+														<button style="width:10vw" type="button" class="btn btn-primary"
+															data-toggle="modal" data-target="#modal-signup">
+															Sign Up
+														</button>
+													</span>
+												</td>
+
+												<td>
+													<span id="logoutbutton">
+														<button style="width:18vw" type="button" id="logout" class="btn btn-danger">
+															Log Out!
+														</button>
+													</span>
+												</td>
+											</tr>
+											<span id="loginStatus" style="color:white"></span>
+											</span>
+										</table>
 									</div>
 								</div>
 								<div style="line-height:50%;">
@@ -76,17 +91,19 @@
 									</table>
 								</form>
 							</div>
-							
-							<div class = "mx-auto" style="width: 8vw;">
-								<div style="text-align:left;margin-top: 50px; background-color: white;"
+
+
+
+							<div class="mx-auto" style="width: 23vw;">
+								<div style="text-align:center ;margin-top: 50px; background-color: white;"
 									class="rounded">
-									<h4>Or By Name:</h4>
+									<h4 class="text-success">Or By Name:</h4>
 								</div>
 							</div>
 
-							<div id="searchForm" class="mx-auto" style="width: 10vw;">
+							<div id="searchForm" class="mx-auto" style="width: 23vw;">
 								<form>
-									<input type = "search" id = "searchByName">
+									<input type="text" id="searchByName" class="form-control" aria-label="Large">
 								</form>
 							</div>
 
@@ -138,67 +155,69 @@
 		</div>
 	</div>
 
-	
-	<div class="modal fade" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+	<div class="modal fade" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
 		<div class="modal-dialog" role="document">
-		  <div class="modal-content">
-			<div class="modal-header">
-			  <h5 class="modal-title" id="exampleModalLabel">Sign In Your Account</h5>
-			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			  </button>
-			</div>
-			<div class="modal-body">
-				Warning! Your "My Saved Results" page will be cleared upon login.
-			  <form id="login-form">
-				  <div>
-					<input type="email" id="login-email" required />
-					<label for="login-email">Email Address</label>
-				  </div>
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Sign In Your Account</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					Warning! Your "My Saved Results" page will be cleared upon login.
+					<form id="login-form">
+						<div>
+							<input type="email" id="login-email" required />
+							<label for="login-email">Email Address</label>
+						</div>
 
-				  <div>
-					<input type="password" id="login-password" required />
-					<label for="login-password">Your password</label>
-				  </div>
+						<div>
+							<input type="password" id="login-password" required />
+							<label for="login-password">Your password</label>
+						</div>
 
-				  <button type="submit" class="btn btn-success">Login</button>
-				</form>
+						<button type="submit" class="btn btn-success">Login</button>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
 			</div>
-			<div class="modal-footer">
-			  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-			</div>
-		  </div>
 		</div>
-	  </div>
+	</div>
 
-	  <div class="modal fade" id="modal-signup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="modal-signup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
 		<div class="modal-dialog" role="document">
-		  <div class="modal-content">
-			<div class="modal-header">
-			  <h5 class="modal-title" id="exampleModalLabel">Sign Up for an Account</h5>
-			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			  </button>
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Sign Up for an Account</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form id="signup-form">
+						<div>
+							<input type="email" id="signup-email" required />
+							<label for="signup-email">Email address</label>
+						</div>
+						<div>
+							<input type="password" id="signup-password" required />
+							<label for="signup-password">Choose password</label>
+						</div>
+						<button type="submit" class="btn btn-success">Sign up</button>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
 			</div>
-			<div class="modal-body">
-				<form id="signup-form">
-					<div>
-					  <input type="email" id="signup-email" required />
-					  <label for="signup-email">Email address</label>
-					</div>
-					<div>
-					  <input type="password" id="signup-password" required />
-					  <label for="signup-password">Choose password</label>
-					</div>
-					<button type="submit" class="btn btn-success">Sign up</button>
-				  </form>
-			</div>
-			<div class="modal-footer">
-			  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-			</div>
-		  </div>
 		</div>
-	  </div>
+	</div>
 
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
@@ -235,10 +254,10 @@
 		const db = firebase.firestore();
 	</script>
 
-	 <!-- Compiled and minified JavaScript -->
-	 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-	 <script src="/auth.js"></script>
-	 <script src="script.js"></script>
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<script src="/auth.js"></script>
+	<script src="script.js"></script>
 
 </body>
 
