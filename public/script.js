@@ -119,6 +119,7 @@ document.addEventListener('DOMContentLoaded', init);
 
 async function searchParks(text) {
     var searchTerm = text.toString();
+    console.log(searchTerm);
     const result = await axios ({
         method: 'get',
         url: `https://developer.nps.gov/api/v1/parks?q=${searchTerm}&api_key=FC8pCCfcIs52SJLaHDcXdYJICINb6ixQA7b3Oeqx`,
