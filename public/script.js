@@ -427,3 +427,31 @@ $(".checkbox-menu").on("change", "input[type='checkbox']", function () {
 $(document).on('click', '.allow-focus', function (e) {
     e.stopPropagation();
 });
+
+const targetNode = document.getElementById('myResults');
+const config = { attributes: true, childList: true, subtree: true };
+const callback = function(mutationsList, observer) {
+    if(targetNode.children.length ==1){
+        document.getElementById('filterBoxes').style.display = "none";
+    } else {
+        document.getElementById('filterBoxes').style.display = "block";
+
+    }
+};
+const observer = new MutationObserver(callback);
+observer.observe(targetNode, config);
+
+
+const targetNode1 = document.getElementById('mySaved');
+const config1 = { attributes: true, childList: true, subtree: true };
+const callback1 = function(mutationsList1, observer1) {
+    if(targetNode1.children.length ==1){
+        document.getElementById('filterBoxes1').style.display = "none";
+    } else {
+        document.getElementById('filterBoxes1').style.display = "block";
+
+    }
+};
+const observer1 = new MutationObserver(callback1);
+observer1.observe(targetNode1, config1);
+
