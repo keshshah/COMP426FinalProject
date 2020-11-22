@@ -1,5 +1,3 @@
-//get data
-
 //listen for auth status changes and also populate the local db
 auth.onAuthStateChanged(user => {
     if (user) {
