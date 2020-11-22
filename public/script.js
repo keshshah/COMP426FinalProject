@@ -229,7 +229,7 @@ function filterMe(event) {
     let id = event.currentTarget.id;
     let length = id.length;
     let condition = id.slice(12, length);
-    let list = event.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement. getElementsByClassName(condition);
+    let list = event.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName(condition);
     let listLength = list.length;
     for (let i = 0; i < listLength; i++) {
         let container;
