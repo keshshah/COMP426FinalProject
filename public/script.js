@@ -1,4 +1,6 @@
+
 auth.onAuthStateChanged(user => {
+
     if (user) {
         isLogged = true;
         username = user.email;
