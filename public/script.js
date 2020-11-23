@@ -36,6 +36,20 @@ auth.onAuthStateChanged(user => {
         $('#loginStatus').html(`<span id="logStatus" style="color:white">Logged in as: ${username}</span>`);
     } else {
         isLogged = false;
+        $('#mySaved').empty();
+        $('#mySaved').append(`<table style="width:100%">
+        <tbody style="width:100%">
+            <tr style="width:100%">
+                <td style="width:50%; color: #afff14; font-size:32px; font-weight:bolder">My
+                    Saved Results:</td>
+                <td style="width:50%; color: #04ECF0; font-size:20px; font-weight:bold; vertical-align: middle;">
+                    <div class="form-check form-check-inline" id="filterBoxes1" style="display: none;">
+                        State Filters: &nbsp;
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>`);
         username = '';
         $('#loginStatus').html('');
         document.getElementById("signinbutton").style.display = "block";
@@ -60,7 +74,6 @@ function loadStates() {
     let statesList = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'];
     let x = document.getElementById("stateSelect");
 
-    let timeSelect = ['12:00']
     statesList.forEach(state => {
         let option = document.createElement("option");
         option.value = state;
@@ -194,7 +207,9 @@ function renderParsed(json) {
         </tr>
     </tbody>
 </table>`;
+    
     $('#myResults').append(filters);
+
     json.forEach(obj => {
         let created = createResultElement(obj);
         let newEl = document.createElement("div");
