@@ -115,7 +115,7 @@
 								onclick="openTab(event, 'myResults')">Search Results</button>
 							<button type="button" class="btn inactive tablinks" onclick="openTab(event, 'mySaved')">My
 								Saved Results</button>
-							<a style="width:10vw" type="button" class="btn btn-success" href="about.html">About Page</a>
+							<a style="height:5vh; width:8vw" type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-about">About Page</a>
 						</div>
 						<div id="myResults" class="tabcontent results">
 							<table style="width:100%">
@@ -215,6 +215,29 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modal-about" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true" >
+		<div class="modal-dialog" role="document">
+			<div class="modal-content" style="background-color:rgba(0,0,0,0.9); ">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel" style="text-align:center"><font style="font-weight: bold;" face="verdana" size="6" color="white">Welcome to Park Finder!
+					</font></h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<font face="verdana" size="4" color="white">
+					The one stop site to make finding the perfect place to spend the day a breeze! To get started you can either search by state or based on keyword. <br><br> After the initial search, you can further narrow down your list by selecting your weather preferences. Once you have found your desired destination, you can create an account using your email to add the park to your favorites list. This list can be a great way to keep a log of all your recent park visits!<br><br>Hope to see you on the trail!
+				</font>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
